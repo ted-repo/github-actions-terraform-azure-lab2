@@ -35,7 +35,7 @@ module "ResourceGroup" {
 #storage account module
 module "StorageAccount" {
   source = "./modules/StorageAccount"
-  
+
   base_name           = "TerraformExample01"
   resource_group_name = module.ResourceGroup.rg_name_out
   location            = "West US"
