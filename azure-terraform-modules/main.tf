@@ -1,3 +1,5 @@
+
+/* #commented out duplicate providers
 # provider
 
 terraform {
@@ -14,6 +16,7 @@ provider "azurerm" {
 
   }
 }
+*/
 
 
 #call the child modules
