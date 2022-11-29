@@ -1,5 +1,9 @@
 Lessons learned during practice:
 
+- https://developer.hashicorp.com/terraform/cli/commands/fmt
+
+- https://github.com/bridgecrewio/checkov (for more information in Checkov)
+
 - Great read on Github actions and terraform code: https://nedinthecloud.com/2021/12/08/github-actions-with-terraform/
 
 - Information on authenticating via Azure SP from terraform: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret

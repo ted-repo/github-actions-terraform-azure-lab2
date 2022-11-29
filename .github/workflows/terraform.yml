@@ -41,7 +41,18 @@ jobs:
         CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
       run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT" -backend-config="container_name=$CONTAINER_NAME" -backend-config="resource_group_name=$RESOURCE_GROUP"
 
-# pending code to check formatting and validation
+    # Check Terraform format on feature branches: returns 0 for no formatting problems and 1 for formatting problems.
+    - name: Terraform Format
+      id: fmt
+      if: github.ref != 'refs/heads/main' #if the branch is not main
+      run:  terraform fmt -check
+
+    # Terraform validate on  feature branches
+    - name: Terraform Validate
+      id: validate
+      if: github.ref != 'refs/heads/main'
+            && (success() || failure()) #it runs this command if the previous step was successful or not
+      run:  terraform validate -no-color
 
     # Run a terraform plan for pull requests only
     - name: Terraform Plan
@@ -83,6 +94,20 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
+    # Checkov step which is run on pull request.
+    - name: Checkov
+      if: github.event_name == 'pull_request'
+      id: checkov
+      uses:  bridgecrewio/checkov-action@master
+      with:
+        quiet: true
+        framework: terraform
+        container_user: 1000
+        output_format: github_failed_only
+        sofr_failt: false
+        skip_check: CKV_AZURE_88,CKV_AZURE_71,CKV_AZURE_16
+
 
       # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply

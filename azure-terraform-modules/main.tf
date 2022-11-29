@@ -27,7 +27,7 @@ provider "azurerm" {
 module "ResourceGroup" {
   source = "./modules/ResourceGroup"
 
-  base_name = "TerraformExamples01"
+  base_name = "TerraformExamples02"
   location  = "West US"
 }
 
@@ -35,8 +35,8 @@ module "ResourceGroup" {
 #storage account module
 module "StorageAccount" {
   source = "./modules/StorageAccount"
-  
-  base_name           = "TerraformExample01"
+
+  base_name           = "TerraformExample02"
   resource_group_name = module.ResourceGroup.rg_name_out
   location            = "West US"
 }
